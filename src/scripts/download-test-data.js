@@ -1,17 +1,16 @@
-"use strict";
+const fs = require(`fs`)
+const fetchData = require(`../fetch`)
 
-const fs = require(`fs`);
+// Fetch data from our sample site and save it to disk.
 
-const fetchData = require(`../fetch`); // Fetch data from our sample site and save it to disk.
-
-
-const typePrefix = `wordpress__`;
+const typePrefix = `wordpress__`
 const refactoredEntityTypes = {
   post: `${typePrefix}POST`,
   page: `${typePrefix}PAGE`,
   tag: `${typePrefix}TAG`,
-  category: `${typePrefix}CATEGORY`
-};
+  category: `${typePrefix}CATEGORY`,
+}
+
 fetchData({
   _verbose: false,
   _siteURL: `http://dev-gatbsyjswp.pantheonsite.io`,
@@ -20,7 +19,10 @@ fetchData({
   _hostingWPCOM: false,
   _perPage: 100,
   typePrefix,
-  refactoredEntityTypes
+  refactoredEntityTypes,
 }).then(data => {
-  fs.writeFileSync(`${__dirname}/../__tests__/data.json`, JSON.stringify(data, null, 4));
-});
+  fs.writeFileSync(
+    `${__dirname}/../__tests__/data.json`,
+    JSON.stringify(data, null, 4)
+  )
+})

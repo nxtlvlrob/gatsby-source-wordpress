@@ -1,5 +1,5 @@
 {
-  "name": "nxtlvlrob-gatsby-source-wordpress",
+  "name": "gatsby-source-wordpress",
   "description": "Gatsby source plugin for building websites using the Wordpress CMS as a data source.",
   "version": "3.1.1",
   "author": "Sebastien Fichot <fichot.sebastien@gmail.com>",
@@ -45,6 +45,5 @@
   },
   "engines": {
     "node": ">=8.0.0"
-  },
-  "gitHead": "3e8578c97862d1715045b289ab118f6653b7feb9"
+  }
 }

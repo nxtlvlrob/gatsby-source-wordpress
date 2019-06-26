@@ -1,9 +1,5 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
-var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
-
 const deepMapKeys = require(`deep-map-keys`);
 
 const _ = require(`lodash`);
@@ -102,11 +98,11 @@ exports.generateFakeWordpressId = entities => entities.map(e => {
 
 const normalizeEntities = entities => {
   const mapType = e => Object.keys(e).filter(key => key !== `__type`).map(key => {
-    return Object.assign({
-      id: key
-    }, e[key], {
+    return {
+      id: key,
+      ...e[key],
       __type: e.__type
-    });
+    };
   });
 
   return entities.reduce((acc, e) => {
@@ -502,7 +498,7 @@ const prepareACFChildNodes = (obj, entityId, topLevelIndex, type, children, chil
     }
   });
 
-  const acfChildNode = Object.assign({}, obj, {
+  const acfChildNode = { ...obj,
     id: entityId + topLevelIndex + type,
     parent: entityId,
     children: [],
@@ -510,7 +506,7 @@ const prepareACFChildNodes = (obj, entityId, topLevelIndex, type, children, chil
       type,
       contentDigest: createContentDigest(obj)
     }
-  });
+  };
   children.push(acfChildNode.id); // We recursively handle children nodes first, so we need
   // to make sure parent nodes will be before their children.
   // So let's use unshift to put nodes in the beginning.
@@ -526,7 +522,10 @@ exports.createNodesFromEntities = ({
 }) => {
   entities.forEach(e => {
     // Create subnodes for ACF Flexible layouts
-    let entity = (0, _objectWithoutPropertiesLoose2.default)(e, ["__type"]); // eslint-disable-line no-unused-vars
+    let {
+      __type,
+      ...entity
+    } = e; // eslint-disable-line no-unused-vars
 
     let children = [];
     let childrenNodes = [];
@@ -545,14 +544,14 @@ exports.createNodesFromEntities = ({
       });
     }
 
-    let node = Object.assign({}, entity, {
+    let node = { ...entity,
       children,
       parent: null,
       internal: {
         type: e.__type,
         contentDigest: createContentDigest(entity)
       }
-    });
+    };
     createNode(node);
     childrenNodes.forEach(node => {
       createNode(node);

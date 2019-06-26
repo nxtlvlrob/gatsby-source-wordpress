@@ -278,11 +278,12 @@ async function fetchData({
     // Process entities to creating GraphQL Nodes.
     if (Array.isArray(routeResponse)) {
       routeResponse = routeResponse.map(r => {
-        return Object.assign({}, r, optionPageId ? {
-          __acfOptionPageId: optionPageId
-        } : {}, {
+        return { ...r,
+          ...(optionPageId ? {
+            __acfOptionPageId: optionPageId
+          } : {}),
           __type: type
-        });
+        };
       });
       entities = entities.concat(routeResponse);
     } else {
