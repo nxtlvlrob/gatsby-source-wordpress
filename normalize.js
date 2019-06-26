@@ -374,7 +374,7 @@ exports.mapEntitiesToMedia = entities => {
       } else if (isArrayOfPhotoObject(value)) {
         return {
           mediaNodeID: value.map(item => getMediaFromValue(item, key).mediaNodeID).filter(id => id !== null),
-          deleteField: true
+          deleteField: false
         };
       }
 
